@@ -4,14 +4,12 @@ import com.example.terrarium.model.dto.HumidityData;
 import com.example.terrarium.service.HumidityService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/humidity")
 @AllArgsConstructor
+@CrossOrigin("http://localhost:3000")
 public class HumidityController {
 
     private final HumidityService humidityService;
