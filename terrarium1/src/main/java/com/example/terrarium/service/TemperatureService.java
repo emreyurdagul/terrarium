@@ -26,7 +26,7 @@ public class TemperatureService {
 
     public void recordTemperature(double temperature){
         LocalDateTime localDateTime = LocalDateTime.now(); // Current date and time
-        Date currentDate = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant()); // Convert LocalDateTime to Date
+        Date currentDate = Date.from(localDateTime.atZone(ZoneId.of("UTC")).toInstant());// Convert LocalDateTime to Date
         Temperature temperature1 = Temperature.builder()
                 .temperatureLevel(temperature)
                 .date(currentDate)

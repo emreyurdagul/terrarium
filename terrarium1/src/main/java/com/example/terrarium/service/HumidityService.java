@@ -25,7 +25,7 @@ public class HumidityService {
     public void recordHumidity(double humidity) {
 
         LocalDateTime localDateTime = LocalDateTime.now(); // Current date and time
-        Date currentDate = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant()); // Convert LocalDateTime to Date
+        Date currentDate = Date.from(localDateTime.atZone(ZoneId.of("UTC")).toInstant()); // Convert LocalDateTime to Date
         Humidity humidity1 = Humidity.builder()
                 .humidityLevel(humidity)
                 .date(currentDate)
