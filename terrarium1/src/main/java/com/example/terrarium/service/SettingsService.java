@@ -2,6 +2,7 @@ package com.example.terrarium.service;
 
 
 import com.example.terrarium.model.Settings;
+import com.example.terrarium.model.dto.GetSettingsResponse;
 import com.example.terrarium.model.dto.SetHumidityThresholdRequest;
 import com.example.terrarium.model.dto.SetTemperatureThresholdRequest;
 import com.example.terrarium.repository.SettingsRepository;
@@ -46,4 +47,24 @@ public class SettingsService {
         }
         settingsRepository.save(settings);
     }
+
+
+
+    public GetSettingsResponse getSettings() {
+        Optional<Settings> settingsOptional = settingsRepository.findBySettingType("threshold");
+        if (settingsOptional.isPresent()) {
+            Settings settings = settingsOptional.get();
+            return new GetSettingsResponse(
+                    settings.getTemperatureThreshold(),
+                    settings.getHumidityThreshold()
+            );
+        } else {
+            // Handling the case where no settings are found; you might want to handle this differently
+            return new GetSettingsResponse(25.0, 50.0); // default values
+        }
+    }
+
+
+
+
 }

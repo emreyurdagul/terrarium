@@ -1,5 +1,6 @@
 package com.example.terrarium.controller;
 
+import com.example.terrarium.model.dto.GetSettingsResponse;
 import com.example.terrarium.model.dto.SetHumidityThresholdRequest;
 import com.example.terrarium.model.dto.SetTemperatureThresholdRequest;
 import com.example.terrarium.service.SettingsService;
@@ -26,5 +27,12 @@ public class SettingsController {
         settingsService.setHumidityThreshold(humidityThresholdRequest);
         return ResponseEntity.ok("humidityThreshold is changed");
     }
+
+
+    @GetMapping("/threshold-settings")
+    public ResponseEntity<GetSettingsResponse> getThresholds(){
+        return ResponseEntity.ok(settingsService.getSettings());
+    }
+
 
 }
