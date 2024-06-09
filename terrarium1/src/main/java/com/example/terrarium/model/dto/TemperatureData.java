@@ -1,11 +1,16 @@
 package com.example.terrarium.model.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Setter
-@Getter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class TemperatureData {
+
+
     private double temperature;
+
+
 
 }
