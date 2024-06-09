@@ -1,7 +1,9 @@
 package com.example.terrarium.service;
 
 import com.example.terrarium.model.Humidity;
+import com.example.terrarium.model.Settings;
 import com.example.terrarium.model.Temperature;
+import com.example.terrarium.model.dto.GetSettingsResponse;
 import com.example.terrarium.repository.HumidityRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import java.util.List;
 @AllArgsConstructor
 public class HumidityService {
     private HumidityRepository humidityRepository;
+    private SettingsService settingsService;
 
 
     public void recordHumidity(double humidity) {
@@ -40,5 +43,19 @@ public class HumidityService {
         Pageable limit = PageRequest.of(0, 1, Sort.by("date").descending());
         List<Humidity> humidities = humidityRepository.findAllByOrderByDateDesc(limit);
         return humidities.isEmpty() ? ResponseEntity.ok(Humidity.builder().humidityLevel(0.0).date(new Date()).build())  : ResponseEntity.ok(humidities.get(0));
+    }
+
+    public ResponseEntity<Boolean> getHumidityStatus() {
+        Pageable limit = PageRequest.of(0, 1, Sort.by("date").descending());
+        List<Humidity> humidities = humidityRepository.findAllByOrderByDateDesc(limit);
+        GetSettingsResponse settings = settingsService.getSettings();
+        Boolean humidityStatus = false;
+        if(!humidities.isEmpty()) {
+            if(humidities.get(0).getHumidityLevel() < settings.getHumidityThreshold()){
+                humidityStatus = true;
+            }
+        }
+        return ResponseEntity.ok(humidityStatus);
+
     }
 }

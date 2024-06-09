@@ -9,6 +9,7 @@ import com.example.terrarium.repository.SettingsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -60,6 +61,12 @@ public class SettingsService {
             );
         } else {
             // Handling the case where no settings are found; you might want to handle this differently
+            Settings settings = settingsRepository.save(Settings.builder()
+                                                                    .settingType("threshold")
+                                                                    .temperatureThreshold(25.0)
+                                                                    .humidityThreshold(50.0)
+                                                                    .date(new Date())
+                                                                    .build());
             return new GetSettingsResponse(25.0, 50.0); // default values
         }
     }

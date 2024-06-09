@@ -26,8 +26,14 @@ public class TemperatureController {
 
     //TODO Temperature Data Fetching in Array Format (List)
     @GetMapping("/fetching-single-temperature-value")
-        public ResponseEntity<Temperature> fetchingSingleTemperatureValue() {
+    public ResponseEntity<Temperature> fetchingSingleTemperatureValue() {
         return temperatureService.fetchingSingleTemperatureValue();
+    }
+
+
+    @GetMapping("/temperature-status")
+    public ResponseEntity<Boolean> getTemperatureStatus() {
+        return temperatureService.getTemperatureStatus();
     }
 
 
@@ -36,4 +42,6 @@ public class TemperatureController {
     public ResponseEntity<List<Temperature>> fetchingCumulativeTemperatureValues() {
         return temperatureService.fetchingCumulativeTemperatureValues();
     }
+
+
 }

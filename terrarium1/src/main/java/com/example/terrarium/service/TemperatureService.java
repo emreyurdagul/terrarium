@@ -2,6 +2,7 @@ package com.example.terrarium.service;
 
 import com.example.terrarium.model.Humidity;
 import com.example.terrarium.model.Temperature;
+import com.example.terrarium.model.dto.GetSettingsResponse;
 import com.example.terrarium.repository.TemperatureRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,7 @@ public class TemperatureService {
 
 
     private TemperatureRepository temperatureRepository;
-
+    private SettingsService settingsService;
     public void recordTemperature(double temperature){
         LocalDateTime localDateTime = LocalDateTime.now(); // Current date and time
         Date currentDate = Date.from(localDateTime.atZone(ZoneId.of("UTC")).toInstant());// Convert LocalDateTime to Date
@@ -49,5 +50,18 @@ public class TemperatureService {
         List<Temperature> temperatures = temperatureRepository.findAllByOrderByDateDesc(limit);
         return temperatures.isEmpty() ? ResponseEntity.ok(Temperature.builder().temperatureLevel(0.0).date(new Date()).build())  : ResponseEntity.ok(temperatures.get(0));
 
+    }
+
+    public ResponseEntity<Boolean> getTemperatureStatus() {
+        Pageable limit = PageRequest.of(0, 1, Sort.by("date").descending());
+        List<Temperature> temperatures = temperatureRepository.findAllByOrderByDateDesc(limit);
+        GetSettingsResponse settings = settingsService.getSettings();
+        Boolean temperatureStatus = false;
+        if(!temperatures.isEmpty()) {
+            if(temperatures.get(0).getTemperatureLevel() < settings.getTemperatureThreshold()){
+                temperatureStatus = true;
+            }
+        }
+        return ResponseEntity.ok(temperatureStatus);
     }
 }

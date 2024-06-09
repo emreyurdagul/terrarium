@@ -28,5 +28,10 @@ public class HumidityController {
         return humidityService.fetchHumidityValue();
     }
 
+
+    @GetMapping("/humidity-status")
+    public ResponseEntity<Boolean> getHumidityStatus(){
+        return humidityService.getHumidityStatus();
+    }
 }
 
