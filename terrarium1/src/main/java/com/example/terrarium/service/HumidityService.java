@@ -5,11 +5,16 @@ import com.example.terrarium.model.Temperature;
 import com.example.terrarium.repository.HumidityRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -29,5 +34,11 @@ public class HumidityService {
 
 
 
+    }
+
+    public ResponseEntity<Humidity> fetchHumidityValue() {
+        Pageable limit = PageRequest.of(0, 1, Sort.by("date").descending());
+        List<Humidity> humidities = humidityRepository.findAllByOrderByDateDesc(limit);
+        return humidities.isEmpty() ? ResponseEntity.ok(Humidity.builder().humidityLevel(0.0).date(new Date()).build())  : ResponseEntity.ok(humidities.get(0));
     }
 }

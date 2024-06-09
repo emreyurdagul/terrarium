@@ -1,5 +1,6 @@
 package com.example.terrarium.controller;
 
+import com.example.terrarium.model.Humidity;
 import com.example.terrarium.model.dto.HumidityData;
 import com.example.terrarium.service.HumidityService;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,12 @@ public class HumidityController {
         return ResponseEntity.ok("Data received successfully!");
     }
 
+    //TODO Humidity Data Fetching
+
+    @GetMapping("/fetch-single-humidity-value")
+    public ResponseEntity<Humidity> fetchHumidityValue(){
+        return humidityService.fetchHumidityValue();
+    }
 
 }
 
